@@ -1,0 +1,27 @@
+이 강의는 실무에서 주로 사용할 데이터 접근 기술을 다룬다.
+
+* 적용 데이터 접근 기술
+- JdbcTemplate
+- MyBatis
+- JPA, Hibernate
+- 스프링 데이터 JPA
+- Querydsl
+
+* 기술 분류
+- SQLMapper
+    - JdbcTemplate
+    - MyBatis
+- ORM 관련 기술
+    - JPA, Hibernate
+    - 스프링 데이터 JPA
+    - Querydsl
+
+* SQL Mapper 주요 기능
+- 개발자가 SQL만 작성하면 SQL 결과를 객체로 매핑
+- JDBC 중복 제거, 기타 편의 기능 제공
+
+* ORM 주요 기능
+- 기본적인 SQL을 JPA가 대신 작성해준다. 개발자는 객체를 마치 컬렉션에 저장하고 조회하듯이 사용하면 ORM 기술이 데이터베이스에 해당 객체를 저장, 조회해준다.
+- JPA는 자바 진영의 ORM 표준(인터페이스). Hibernate는 가장 많이 사용되는 JPA 구현체.
+- 스프링 데이터 JPA, Querydsl은 JPA를 더 편리하게 사용할 수 있게 도와주는 프로젝트이다.
+  실무에서는 JPA와 함께 꼭 사용하는 것이 좋다.
