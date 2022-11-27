@@ -28,7 +28,7 @@ import java.util.Optional;
  * - BeanPropertySqlParameterSource
  * - MapSqlParameterSource
  * Map
- *
+ * <p>
  * BeanPropertyRowMapper
  */
 @Slf4j
@@ -48,8 +48,11 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
 
         SqlParameterSource param = new BeanPropertySqlParameterSource(item);
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        template.update(sql, param, keyHolder);
+
+        // https://shanepark.tistory.com/383
+        template.update(sql, param, keyHolder, new String[]{"id"});
         long key = keyHolder.getKey().longValue();
+
         item.setId(key);
         return item;
     }
