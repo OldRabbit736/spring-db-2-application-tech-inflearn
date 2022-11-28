@@ -33,7 +33,7 @@ public class ItemServiceApplication {
 
 	// 테스트 시 메모리 DB 사용하기 위한 DataSource 빈 등록
 /*	@Bean
-	@Profile("tes")
+	@Profile("test")
 	public DataSource dataSource() {
 		log.info("메모리 데이터베이스 초기화");
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();

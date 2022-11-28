@@ -25,3 +25,16 @@ beforeEach, afterEach를 사용하는대신
 
 테스트에서 트랜잭션을 시작했는데 내부 코드에서 서비스가 또 트랜잭션을 사용한다.
 --> 내부 트랜잭션이 같은 트랜잭션(커넥션)에 참여하게 된다. (트랜잭션 전파, 강좌 후반에 설명)
+
+
+테스트 실행 시
+- test/resources/application.properties 가 존재하면 main/resources/application.properties 대신 로드
+- 프로퍼티에 따라 autoconfiguration
+    - active profile 설정
+        - active profile에 따라 properties 파일이 추가로 로드될 수도 있음 (application-test.properties)
+        - active profile에 따라 bean, configuration 등이 로드됨 (@profile("test") 붙은 bean, configuration)
+- datasource 프로퍼티에 따라 DataSource 빈 생성
+    - datasource 프로퍼티 존재하지 않으면 H2 메모리 DB를 위한 DataSource 빈 자동 생성
+    - 해당 DataSource는 메모리모드에서 H2 DB 실행
+- test/resources/schema.sql 자동 실행
+    - 단, spring.sql.init.mode=never 일 때는 실행시키지 않는다.
