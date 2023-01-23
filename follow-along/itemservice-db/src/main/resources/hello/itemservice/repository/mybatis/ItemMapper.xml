@@ -24,7 +24,7 @@
     </select>
 
     <!-- dynamic query  -->
-    <select id="findByAll" resultType="Item">
+    <select id="findAll" resultType="Item">
         select id, item_name, price, quantity
         from item
         <where>
@@ -32,7 +32,7 @@
                 and item_name like concat('%', #{itemName}, '%')
             </if>
             <if test="maxPrice != null">
-                and price $lt;= #{maxPrice}
+                and price &lt;= #{maxPrice}
             </if>
         </where>
     </select>

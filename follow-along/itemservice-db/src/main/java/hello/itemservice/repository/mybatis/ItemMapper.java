@@ -11,7 +11,7 @@ import java.util.Optional;
 
 /**
  * 인터페이스 메서드를 호출하면 mapper xml 파일에서 해당 SQL 을 실행하게 된다.
- * 구현체는 자동으로 생성된다.
+ * 구현체는 자동으로 생성된다. 구현체는 bean 에 등록된다.
  */
 @Mapper
 public interface ItemMapper {
