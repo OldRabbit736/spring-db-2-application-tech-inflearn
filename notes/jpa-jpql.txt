@@ -1,0 +1,28 @@
+JPA
+- 구: Java Persistence API (신: Jakarta Persistence API)
+- 자바 진영의 ORM 기술 표준!
+- 자바 애플리케이션과 JDBC 사이에 위치하여 엔티티와 sql 사이 변환을 도와준다.
+- 따라서 객체지향과 Relational DB 사이의 패러다임 불일치를 해결해 준다.
+  개발자는 SQL 중심적인 개발에서 객체 중심으로 개발로 넘어갈 수 있다.
+- 기술 표준이기에 interface 등으로 이루어져 있다.
+- 구현체의 대표적인 예로 Hibernate가 있다.
+
+JPA 기술
+- 1차 캐시, repeatable read
+- transactional write-behind
+- lazy loading
+
+JPQL
+- 구: Java Persistence Query Language (신: Jakarta Persistence Query Langauge)
+- 객체(엔티티)를 대상으로(테이블 대상이 아닌) 하는 쿼리 언어
+- JPA 표준의 일부이다.
+- 기존 query와 마찬가지로 동적 쿼리에 약하다.
+- 기존 query의 동적 쿼리는 MyBatis 등으로 해결 가능했다.
+- JPQL의 동적 쿼리는 Querydsl 로 해결 가능하다. (표준 기술은 아님, 3rd party)
+- 표준 기술로는 Criteria 라는 것이 있는데 쓰기 상당히 번거롭다.
+
+
+JPQL - wikipedia
+The Jakarta Persistence Query Language (JPQL; formerly Java Persistence Query Language) is a platform-independent object-oriented query language defined as part of the Jakarta Persistence (JPA; formerly Java Persistence API) specification.
+
+JPQL is used to make queries against entities stored in a relational database. It is heavily inspired by SQL, and its queries resemble SQL queries in syntax, but operate against JPA entity objects rather than directly with database tables.
