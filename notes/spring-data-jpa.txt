@@ -1,0 +1,22 @@
+spring data
+- 수 많은 database 를 다루는 데 있어 공통적인 기능을 제공
+- spring data jdbc, jpa, ldap, mongodb, ... 등 수 많은 특화 기능이 공통으로 사용하는 기능을 추상화해서 제공
+
+spring data jpa
+- jpa를 더 편리하게 사용하도록 도와주는 도구이다.
+- spring data에서 조금 더 jpa 특화된 기능을 제공한다.(확장)
+
+JpaRepository
+- spring data jpa에서 제공하는 인터페이스
+- 이 인터페이를 확장하는 인터페이스를 사용자가 만들기만 해도, 자동으로 구현체를 spring data jpa가 생성해 준다.
+- CrudRepository, PagindAndSortingRepository, JpaRepository 기능을 자동으로 사용할 수 있다.
+- 추가적으로, 메소드 이름을 규칙대로 작성하기만 하면 자동으로 JPQL을 생성해준다.
+- @Query 를 이용하면 JPQL나 native query를 직접 입력할 수 있게 해 준다.
+
+
+
+spring data
+<<Repository>> <--extends-- <<CrudRepository>> <--extends-- <<PagingAndSortingRepository>>
+
+spring data jpa
+<<PagingAndSortingRepository>>(spring data) <--extends-- <<JpaRepository>>(spring data jpa)
