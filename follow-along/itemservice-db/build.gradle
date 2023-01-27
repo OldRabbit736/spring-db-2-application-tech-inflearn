@@ -8,6 +8,10 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+// 5.6.6 이후 하이버네이트 버그 (java.lang.IllegalArgumentException: Parameter value [\] did not match expected type
+//[java.lang.String (n/a)]) 때문에 버전 다운
+ext["hibernate.version"] = "5.6.5.Final"
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
