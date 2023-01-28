@@ -1,0 +1,12 @@
+JPA 와 Querydsl 을 모두 최대한 사용하는 방법
+
+2개의 Repository 를 정의한다.
+- ItemRepository <<interface>> (SpringDataJpa)
+    - SpringDataJpa 가 제공하는 기본 메서드 사용
+    - 간단한 JPQL 쿼리 직접 사용
+- ItemQueryRepository (Querydsl)
+    - 복잡한 쿼리
+    - Querydsl 을 이용
+
+아니면,
+Spring Data JPA 가 제공하는 "커스텀 리포지토리"를 사용해서 해결할 수도 있다.
