@@ -1,11 +1,8 @@
 package hello.itemservice.repository.jpa;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import hello.itemservice.domain.Item;
-import hello.itemservice.domain.QItem;
 import hello.itemservice.repository.ItemRepository;
 import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
@@ -20,7 +17,7 @@ import java.util.Optional;
 import static hello.itemservice.domain.QItem.*;
 
 
-@Repository
+@Repository // Querydsl 은 JPQL 빌더 역할을 할 뿐이고 JPA 예외를 변환 시켜주지는 않는다. JPA 예외를 Spring의 DataAccessException 으로 변환시켜주는 일은 @Repository 에서 수행하게 된다.
 @Transactional
 public class JpaItemRepositoryV3 implements ItemRepository {
 
