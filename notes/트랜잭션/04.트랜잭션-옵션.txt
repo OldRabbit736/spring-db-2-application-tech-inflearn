@@ -1,0 +1,95 @@
+@Transactional 옵션 종류
+
+
+value, transactionManager
+- 프록시가 트랜잭션을 걸 때 사용할 TransactionManager를 지정할 수 있다.
+- value, transactionManager 둘 중 하나에 트랜잭션 매니저의 스프링 빈 이름을 명시해 주면 된다.
+- 이 값을 생략하면 기본으로 등록된 트랜잭션 매니저를 사용하게 된다.
+- 사용하는 트랜잭션 매니저가 둘 이상이라면 사용할 트랜잭션 매니저의 이름을 명시해 주면 된다.
+
+    public class TxService {
+        @Transactional("memberTxManager")
+        public void member() {...}
+
+        @Transactional("orderTxManager")
+        public void order() {...}
+    }
+    * 파라미터 이름을 생략할 경우 value 파라미터의 값으로 인식한다.
+
+
+
+rollbackFor
+- 예외 발생 시 스프링 트랜잭션의 기본 정책은 다음과 같다.
+    - 언체크 예외인 RuntimeException, Error 와 그 하위 예외가 발생하면 롤백한다.
+    - 체크 예외인 Exception 과 그 하위 예외들이 발생하여도 커밋한다.
+- 이 옵션을 사용하면 기본 정책에 추가로 어떤 예외가 발생할 때 롤백할지 지정할 수 있다.
+    @Transactional(rollbackFor = Exception.class)
+    * 이렇게 지정하면 체크 예외인 Exception 발생 시에도 롤백하게 된다. (물론 그 하위 예외도)
+    * rollbackForClassName 옵션도 존재하는데, 이것은 예외 이름을 문자로 받는다.
+
+=====ChatGPT 질문 시작====
+Q: In Spring framework, @Transactional annotation's default behavior for rollback is to roll back when an unchecked exception happens and no roll back when a checked exception happens. I'd like to know why.
+A: The reason behind this default behavior is because unchecked exceptions in Java are typically indicative of a programming error, while checked exceptions are exceptions that a method is expected to handle or recover from. By default, the @Transactional annotation rolls back a transaction when an unchecked exception occurs to ensure that the database state is not left in an inconsistent state. On the other hand, when a method is expected to handle or recover from a checked exception, the transaction is not rolled back so that the application has a chance to correct the error and continue processing. This default behavior can be customized by specifying a different rollback rule using the "rollbackFor" or "noRollbackFor" attribute of the @Transactional annotation.
+Q: could you give me some examples?
+A: Sure, here are some examples:
+
+   Unchecked exceptions:
+   NullPointerException
+   IllegalArgumentException
+   ArrayIndexOutOfBoundsException
+
+   Checked exceptions:
+   SQLException
+   IOException
+   FileNotFoundException
+
+   By default, if an unchecked exception occurs, the transaction will be rolled back. However, if a checked exception occurs, the transaction will not be rolled back and it will be up to the application to handle it. For example:
+
+    @Transactional
+    public void updateData() throws SQLException {
+       // some database operations
+       // if an unchecked exception occurs, the transaction will be rolled back
+       // if a checked exception occurs (e.g. SQLException), the transaction will not be rolled back
+    }
+=====ChatGPT 질문 끝====
+
+
+noRollbackFor
+- rollbackFor 의 반대이다. 기본 정책에 추가로 어떤 예외가 발생했을 때 롤백하면 안되는지 지정할 수 있다.
+
+
+propagation
+- 자세한 내용은 뒤에서...
+
+
+isolation
+- 트랜잭션 격리 수준 지정. 기본 값은 데이터베이스에서 설정한 트랜잭션 격리 수준을 사용하는 "DEFAULT"이다.
+- 대부분 데이터베이스에서 설정한 기준을 따른다. 애플리케이션 개발자가 트랜잭션 격리 수준을 직접 지정하는 경우는 드물다.
+    - DEFAULT: 데이터베이스에서 설정한 격리 수준을 따른다.
+    - READ_UNCOMMITTED: 커밋되지 않은 것 읽기
+    - READ_COMMITTED: 커밋된 것 읽기
+    - REPEATABLE_READ: 반복 읽기
+    - SERIALIZABLE: 직렬화
+
+
+timeout
+
+label
+
+readOnly
+- @Transactional에 의한 트랜잭션은 기본적으로 읽기 쓰기가 모두 가능한 트랜잭션을 생성한다.
+- readOnly=true 옵션을 상ㅇ하면 읽기 전용 트랜잭션이 생성된다. 이 경우 등록, 수정, 삭제가 안되고 읽기 기능만 작동한다.
+  (드라이버나 데이터베이스에 따라 정상 작동하지 않는 경우도 있다.)
+- readOnly=true 일 경우, 읽기 성능을 위한 최적화가 수행될 수 있다.
+- 이 옵션은 크게 3곳에서 적용된다.
+    - 프레임워크
+        - JdbcTemplate은 읽기 전용 트랜잭션 안에서 변경 기능이 실행되면 예외를 던진다.
+        - JPA(하이버네이트)는 읽기 전용 트랜잭션을 다룰 때 커밋 시점에 플러시를 호출하지 않는다.
+          또한 변경 감지를 위한 스냅샷 객체도 생성하지 않는다.
+    - JDBC 드라이버
+        - 여기에서 설명되는 내용은 DB와 드라이버 버전에 따라 달라질 수 있기 때문에 사전에 확인해야 한다.
+        - 읽기 전용 트랜잭션에서 변경 쿼리가 발생하면 예외를 던진다.
+        - 읽기, 쓰기(마스터, 슬레이브) 데이터베이스를 구분해서 요청한다. 읽기 전용 트랜잭션의 경우 읽기(슬레이브) 데이터베이스의 커넥션을 획득해서 사용한다.
+            - 예) https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-source-replica-replication-connection.html
+    - 데이터베이스
+        - 읽기만 수행하면 되므로, 데이터베이스에 따라 내부에서 성능 최적화가 발생할 수 있다.
